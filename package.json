@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "surge --project ./build --domain slackify.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@types/reach__router": "^1.2.4",
-    "@types/styled-components": "^4.1.18"
+    "@types/styled-components": "^4.1.18",
+    "surge": "^0.21.3"
   }
 }
