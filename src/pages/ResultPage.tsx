@@ -14,7 +14,7 @@ import useClipboard from '../hooks/useClipboard';
 
 import { PalleteNames, SlackPalette } from '../helpers/types';
 
-import { darkMutedAndVibrant, formatToSlack, logPallete } from '../helpers/colorExtractionMethods';
+import { formatToSlack, logPallete } from '../helpers/colorExtractionMethods';
 
 type Props = {
   path: string;
@@ -88,12 +88,16 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
     clipboard.copy(text);
   }
 
+  const handleMethodChange = (methodKey: string) => {
+    setExtractionMethod(methodKey);
+  }
+
   return (
     <Box display='flex' flexDirection='column' flex={1} alignItems='center' paddingTop='70px'>
       <Typography variant='caption'>Source: </Typography>
       <SourceImage base64={base64Image} />
       <Typography variant='caption'>Extraction Method: </Typography>
-      <SelectMode method={extractionMethod} handleMethodChange={setExtractionMethod} marginBottom='25px' />
+      <SelectMode method={extractionMethod} handleMethodChange={handleMethodChange} marginBottom='25px' />
       <Typography variant='caption'>Resulted Palette: </Typography>
       <PaletteColors palette={slackPalette} />
       <Box display='flex' flex={1} justifyContent='center' marginY='70px'>

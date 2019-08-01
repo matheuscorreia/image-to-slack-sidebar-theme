@@ -28,6 +28,61 @@ export const darkMutedAndVibrant = (pallete: Pallete) => {
     activePresenceColor,
     mentionBadgeColor,
   ];
+};
+
+export const darkVibrantAndMuted = (pallete: Pallete) => {
+  const darkVibrant = pallete.DarkVibrant!.getHex();
+  const muted = pallete.Muted!.getHex();
+
+  const columnBg = darken(0.1, darkVibrant);
+  const hoverHeaderBg = darkVibrant;
+  const activeItemBg = muted;
+  const activeItemTextColor = readableColor(activeItemBg, columnBg);
+  const hoverItemBg = lighten(0.1, darkVibrant);
+  const textColor = readableColor(columnBg);
+  const activePresenceColor = muted;
+  const mentionBadgeColor = muted;
+
+  return [
+    columnBg,
+    hoverHeaderBg,
+    activeItemBg,
+    activeItemTextColor,
+    hoverItemBg,
+    textColor,
+    activePresenceColor,
+    mentionBadgeColor,
+  ];
+};
+
+export const mixEverything = (pallete: Pallete) => {
+  const darkVibrant = pallete.DarkVibrant!.getHex();
+  const lightVibrant = pallete.LightVibrant!.getHex();
+  const vibrant = pallete.Vibrant!.getHex();
+
+  const darkMuted = pallete.DarkMuted!.getHex();
+  const lightMuted = pallete.LightMuted!.getHex();
+  const muted = pallete.Muted!.getHex();
+
+  const columnBg = vibrant;
+  const hoverHeaderBg = darkVibrant;
+  const activeItemBg = muted;
+  const activeItemTextColor = readableColor(activeItemBg, darkVibrant, darkMuted);
+  const hoverItemBg = lighten(0.1, darkVibrant);
+  const textColor = readableColor(columnBg);
+  const activePresenceColor = lightMuted;
+  const mentionBadgeColor = lightVibrant;
+
+  return [
+    columnBg,
+    hoverHeaderBg,
+    activeItemBg,
+    activeItemTextColor,
+    hoverItemBg,
+    textColor,
+    activePresenceColor,
+    mentionBadgeColor,
+  ];
 }
 
 export const formatToSlack = (hexColors: string[]) => {
@@ -58,6 +113,8 @@ export const logPallete = (pallete: Pallete) => {
 
 export enum ColorExtractionMethodsName {
   darkMutedAndVibrant = 'Dark Muted with Vibrant',
+  darkVibrantAndMuted = 'Dark Vibrant with Muted',
+  mixEverything = 'Mix Everything',
 }
 
 type ColorExtractionMethods = {
@@ -65,5 +122,7 @@ type ColorExtractionMethods = {
 } 
 
 export const colorExtractionMethods: ColorExtractionMethods = {
-  darkMutedAndVibrant: darkMutedAndVibrant,
+  darkMutedAndVibrant,
+  darkVibrantAndMuted,
+  mixEverything,
 };

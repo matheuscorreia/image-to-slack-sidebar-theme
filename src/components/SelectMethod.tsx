@@ -20,6 +20,7 @@ const SelectMethod = ({ method, handleMethodChange, ...props }: Props) => {
     <Box flex={1} {...props}>
       <NativeSelect
         value={method}
+        onChange={e => handleMethodChange(e.target.value)}
         input={<Input name="age" id="age-native-label-placeholder" />}
       >
         {Object.entries(ColorExtractionMethodsName).map(([ key, name ]) => (
