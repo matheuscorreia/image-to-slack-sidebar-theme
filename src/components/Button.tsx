@@ -34,12 +34,11 @@ export enum ButtonState {
 type Props = {
   boxProps?: BoxProps;
   onClick?: () => void;
-  text?: string;
   icon?: string;
   children?: React.ReactNode;
 } & MUIButtonProps;
 
-const Button = ({ children, icon, text, onClick, boxProps = {}, ...props }: Props) => {
+const Button = ({ children, icon, onClick, boxProps = {}, ...props }: Props) => {
   return (
     <ButtonWrapper
       {...boxProps}
@@ -55,13 +54,10 @@ const Button = ({ children, icon, text, onClick, boxProps = {}, ...props }: Prop
             {icon}
           </ButtonIcon>
         )}
-        {text && (
-          <Typography>
-            {text}
-          </Typography>
-        )}
+        <Typography>
+          {children}
+        </Typography>
       </StyledButton>
-      {children}
     </ButtonWrapper>
   );
 }

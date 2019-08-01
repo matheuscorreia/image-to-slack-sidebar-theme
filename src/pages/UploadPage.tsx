@@ -9,7 +9,7 @@ type Props = {
 
 const UploadPage: React.SFC<Props> = () => {
   return (
-    <Box display='flex' flex={1} justifyContent='center' paddingTop='70px'>
+    <Box display='flex' flex={1} justifyContent='center'>
       <FileUpload />
     </Box>
   );

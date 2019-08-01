@@ -1,19 +1,41 @@
 import React, { ChangeEvent } from 'react';
-import styled from 'styled-components';
+
+import styled, { css } from 'styled-components';
+import { transparentize } from 'polished';
+
 import Box from '@material-ui/core/Box';
+import RootRef from '@material-ui/core/RootRef';
 import Typography from '@material-ui/core/Typography';
+
 import { navigate } from '@reach/router';
+import { useDropzone }  from 'react-dropzone';
+import usePasteImage from '../hooks/usePasteImage';
 
 import Button from './Button';
 
-const InvisibleInput = styled.input`
-  cursor: pointer;
-  position: absolute;
-  opacity: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+type DragWrapperProps = {
+  isDragging: boolean;
+  isAccepted: boolean;
+}
+
+const draggingMixin = css<DragWrapperProps>`
+  border-radius: 5px;
+
+  ${props => props.isAccepted ? `
+    background-color: ${transparentize(0.5, props.theme.green)};
+    border: 5px dashed ${transparentize(0.5, props.theme.green)};
+  ` : `
+    border: 5px dashed ${transparentize(0.5, '#F00')};
+  `}
+`;
+
+const DragWrapper = styled(({ isDragging, isAccepted, ...props }) => <Box {...props} />)<DragWrapperProps>`
+  && {
+    box-sizing: border-box;
+    transition: background-color .5s ease-in-out;
+    height: calc(100vh - 64px);
+    ${props => props.isDragging ? draggingMixin : ''}
+  }
 `;
 
 const mimeTypesAccepted = [
@@ -23,10 +45,10 @@ const mimeTypesAccepted = [
 ]
 
 const FileUpload: React.FC = () => {
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(!e.target.files) return;
+  const onFileUpload = (files: File[]) => {
+    if(!files.length) return;
 
-    const referenceImage = e.target.files[0]; 
+    const referenceImage = files[0]; 
 
     const fileReader = new FileReader();
 
@@ -43,23 +65,50 @@ const FileUpload: React.FC = () => {
     fileReader.readAsDataURL(referenceImage)
   }
 
+  const {
+    open,
+    getInputProps,
+    getRootProps,
+    isDragActive,
+    isDragAccept,
+  } = useDropzone({
+    accept: mimeTypesAccepted,
+    multiple: false,
+    preventDropOnDocument: true,
+    onDrop: onFileUpload,
+  });
+
+  usePasteImage({ onPaste: onFileUpload });
+
+  const { ref , ...rootProps } = getRootProps();
+
   return (
-    <Box display='flex' flexDirection='column'>
-      <Button
-        text='Convert Image'
-        icon='add_photo_alternate'
+    <RootRef rootRef={ref} >
+      <DragWrapper
+        display='flex'
+        flex={1}
+        flexDirection='column'
+        alignItems='center'
+        paddingTop='70px'
+        isDragging={isDragActive}
+        isAccepted={isDragAccept}
+        {...rootProps}
+        // disable click on drag area to open upload
+        onClick={undefined}
       >
-        <InvisibleInput
-          type='file'
-          name='reference'
-          accept={mimeTypesAccepted.join(',')}
-          onChange={onInputChange}
-        />
-      </Button>
-      <Typography variant='caption' align='center'>
-        Click the button to upload
-      </Typography>
-    </Box>
+        <input {...getInputProps()}/>
+        <Button
+          icon='add_photo_alternate'
+          onClick={open}
+        >
+          Convert Image
+        </Button>
+        <Typography variant='caption' align='center'>
+          Click the button to upload
+        </Typography>
+      </DragWrapper>
+    </RootRef>
+
   );
 }
 

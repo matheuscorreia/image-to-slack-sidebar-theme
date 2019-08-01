@@ -84,7 +84,9 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
     <Box display='flex' flexDirection='column' flex={1} alignItems='center' paddingTop='70px'>
       <PaletteColors palette={slackPalette} />
       <Box display='flex' flex={1} justifyContent='center' marginY='70px'>
-        <Button text='Copy to clipboard' icon='assignment' boxProps={{ marginRight: '10px' }} onClick={handleClipboardCopy} />
+        <Button icon='assignment' boxProps={{ marginRight: '10px' }} onClick={handleClipboardCopy}>
+          Copy to clipboard
+        </Button>
         <Button icon='add_photo_alternate' onClick={() => navigate('/')} />
       </Box>
     </Box>
