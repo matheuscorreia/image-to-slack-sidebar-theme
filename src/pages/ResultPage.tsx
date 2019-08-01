@@ -9,6 +9,7 @@ import SourceImage from '../components/SourceImage';
 import SelectMode, { ColorExtractionMethodsName, colorExtractionMethods } from '../components/SelectMethod';
 import PaletteColors from '../components/PaletteColors';
 import Button from '../components/Button';
+import Snackbar from '../components/Snackbar';
 
 import useClipboard from '../hooks/useClipboard';
 
@@ -59,10 +60,9 @@ const generateSlackPalette = async (base64Image: string, extractionMethodKey: st
 const ResultPage: React.SFC<Props> = ({ location }) => {
   const base64Image = idx(location, _ => _.state.base64Image);
   const [ extractionMethod, setExtractionMethod ] = useState(defaultMethod);
+  const [ isSnackbarOpen, setIsSnackbarOpen ] = useState(false);
 
-  const onCopy = (text: string) => {
-    console.log(text);
-  }
+  const onCopy = () => setIsSnackbarOpen(true);
 
   const clipboard = useClipboard({ onCopy, });
 
@@ -104,8 +104,13 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
         <Button icon='assignment' boxProps={{ marginRight: '10px' }} onClick={handleClipboardCopy}>
           Copy to clipboard
         </Button>
-        <Button icon='add_photo_alternate' onClick={() => navigate('/')} />
+        <Button icon='loop' onClick={() => navigate('/')} />
       </Box>
+      <Snackbar
+        message='Copied Slack theme to clipboard!'
+        open={isSnackbarOpen}
+        handleClose={() => setIsSnackbarOpen(false)}
+      />
     </Box>
   );
 }

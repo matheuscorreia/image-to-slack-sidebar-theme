@@ -5,9 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@reach/router';
 
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-
 import ForkCallToAction from '../ForkCallToAction';
 
 const HeaderTitle = styled(Typography)`
@@ -29,9 +26,6 @@ const Header = () => {
           <HeaderTitleLink to='/'>Image to Slack Theme</HeaderTitleLink>
         </HeaderTitle>
         <ForkCallToAction />
-        {/* <IconButton>
-          <Icon color='action'>help_outline</Icon>
-        </IconButton> */}
       </Toolbar>
     </AppBar>
   );
