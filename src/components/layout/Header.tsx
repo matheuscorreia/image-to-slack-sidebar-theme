@@ -8,6 +8,8 @@ import { Link } from '@reach/router';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
+import ForkCallToAction from '../ForkCallToAction';
+
 const HeaderTitle = styled(Typography)`
   && {
     flex: 1;
@@ -26,9 +28,10 @@ const Header = () => {
         <HeaderTitle variant='h6'>
           <HeaderTitleLink to='/'>Image to Slack Theme</HeaderTitleLink>
         </HeaderTitle>
-        <IconButton>
+        <ForkCallToAction />
+        {/* <IconButton>
           <Icon color='action'>help_outline</Icon>
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </AppBar>
   );
