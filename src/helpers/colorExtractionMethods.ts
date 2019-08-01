@@ -1,3 +1,4 @@
+// tslint:disable
 import Vibrant from 'node-vibrant';
 import { lighten, darken, readableColor } from 'polished';
 
