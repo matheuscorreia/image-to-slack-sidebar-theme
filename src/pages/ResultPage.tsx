@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Vibrant from 'node-vibrant';
 import { navigate } from '@reach/router';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import idx from 'idx';
 
+import SourceImage from '../components/SourceImage';
+import SelectMode, { ColorExtractionMethodsName, colorExtractionMethods } from '../components/SelectMethod';
 import PaletteColors from '../components/PaletteColors';
 import Button from '../components/Button';
 
@@ -22,19 +25,23 @@ type Props = {
   }
 }
 
+const [ defaultMethod ] = Object.keys(ColorExtractionMethodsName);
+
 const paletteKeys = Object.keys(PalleteNames);
 
-const generateSlackPalette = async (base64Image: string, onSuccess: (s: SlackPalette) => void, onError?: () => void) => {  
+const generateSlackPalette = async (base64Image: string, extractionMethodKey: string, onSuccess: (s: SlackPalette) => void, onError?: () => void) => {  
   const vibrantBuilder = Vibrant.from(base64Image);
+
+  const extractionMethod = colorExtractionMethods[extractionMethodKey];
 
   try {
     const palette = await vibrantBuilder.getPalette();
 
     logPallete(palette);
 
-    const slackColors = darkMutedAndVibrant(palette);
+    const extractedColors = extractionMethod(palette);
 
-    const slackPalette = formatToSlack(slackColors).reduce((palette, color, idx) => {
+    const slackPalette = formatToSlack(extractedColors).reduce((palette, color, idx) => {
       const colorKey = paletteKeys[idx];
 
       return {
@@ -51,6 +58,7 @@ const generateSlackPalette = async (base64Image: string, onSuccess: (s: SlackPal
 
 const ResultPage: React.SFC<Props> = ({ location }) => {
   const base64Image = idx(location, _ => _.state.base64Image);
+  const [ extractionMethod, setExtractionMethod ] = useState(defaultMethod);
 
   const onCopy = (text: string) => {
     console.log(text);
@@ -63,8 +71,8 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
   useEffect(() => {
     if(!base64Image) return;
 
-    generateSlackPalette(base64Image, slackPallete => setSlackPalette(slackPallete));
-  }, [base64Image])
+    generateSlackPalette(base64Image, extractionMethod, slackPallete => setSlackPalette(slackPallete));
+  }, [base64Image, extractionMethod])
 
   if(!base64Image) {
     navigate('/');
@@ -82,6 +90,11 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
 
   return (
     <Box display='flex' flexDirection='column' flex={1} alignItems='center' paddingTop='70px'>
+      <Typography variant='caption'>Source: </Typography>
+      <SourceImage base64={base64Image} />
+      <Typography variant='caption'>Extraction Method: </Typography>
+      <SelectMode method={extractionMethod} handleMethodChange={setExtractionMethod} marginBottom='25px' />
+      <Typography variant='caption'>Resulted Palette: </Typography>
       <PaletteColors palette={slackPalette} />
       <Box display='flex' flex={1} justifyContent='center' marginY='70px'>
         <Button icon='assignment' boxProps={{ marginRight: '10px' }} onClick={handleClipboardCopy}>

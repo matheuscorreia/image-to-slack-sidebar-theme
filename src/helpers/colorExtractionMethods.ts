@@ -54,4 +54,16 @@ export const logPallete = (pallete: Pallete) => {
 
     console.log(`%c ▇▇▇▇▇▇▇▇▇▇ ${name}`, `color: ${hex}`);
   })
+};
+
+export enum ColorExtractionMethodsName {
+  darkMutedAndVibrant = 'Dark Muted with Vibrant',
 }
+
+type ColorExtractionMethods = {
+  [key: string]: (palette: Pallete) => string[];
+} 
+
+export const colorExtractionMethods: ColorExtractionMethods = {
+  darkMutedAndVibrant: darkMutedAndVibrant,
+};
