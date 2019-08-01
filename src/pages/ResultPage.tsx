@@ -5,7 +5,6 @@ import Box from '@material-ui/core/Box';
 import idx from 'idx';
 
 import PaletteColors from '../components/PaletteColors';
-import SlackPreview from '../components/SlackPreview';
 import Button from '../components/Button';
 
 import useClipboard from '../hooks/useClipboard';
@@ -88,7 +87,6 @@ const ResultPage: React.SFC<Props> = ({ location }) => {
         <Button text='Copy to clipboard' icon='assignment' boxProps={{ marginRight: '10px' }} onClick={handleClipboardCopy} />
         <Button icon='add_photo_alternate' onClick={() => navigate('/')} />
       </Box>
-      {/* <SlackPreview palette={slackPalette} /> */}
     </Box>
   );
 }

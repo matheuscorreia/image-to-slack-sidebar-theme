@@ -44,6 +44,7 @@ const shorthandHexToLonghand = (shorthandHex: string) => {
   const matchResults = shorthandHex.match(hexShorthandRegex);
   if(!matchResults) return shorthandHex;
 
+  // @ts-ignore
   const [_, r, g, b] = Array.from(matchResults);
   return `#${[r,g,b].flatMap(part => Array(2).fill(part)).join('')}`;
 };
