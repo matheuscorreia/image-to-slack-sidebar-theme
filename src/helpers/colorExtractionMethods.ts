@@ -1,4 +1,3 @@
-/* tslint:disable */
 import Vibrant from 'node-vibrant';
 import { lighten, darken, readableColor } from 'polished';
 
@@ -45,8 +44,7 @@ const shorthandHexToLonghand = (shorthandHex: string) => {
   const matchResults = shorthandHex.match(hexShorthandRegex);
   if(!matchResults) return shorthandHex;
 
-  // @ts-ignore
-  const [_, r, g, b] = Array.from(matchResults);
+  const [r, g, b] = Array.from(matchResults).slice(1);
   return `#${[r,g,b].flatMap(part => Array(2).fill(part)).join('')}`;
 };
 
