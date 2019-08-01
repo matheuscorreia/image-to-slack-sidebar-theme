@@ -50,7 +50,7 @@ const Link = styled.a`
 
 const ForkCallToAction = () => {
   return (
-    <Link href='https://github.com/matheuscorreia/image-to-slack-sidebar-theme' target='_blank' aria-label='View source on GitHub'>
+    <Link href='https://github.com/matheuscorreia/image-to-slack-sidebar-theme' rel="noopener" target='_blank' aria-label='View source on GitHub'>
       <svg height='100%' viewBox='0 0 250 250' aria-hidden='true'>
         <path
           d='M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z'
